@@ -1,6 +1,7 @@
 package com.es.proyectoformulario.services.impl;
 
 import com.es.proyectoformulario.model.User;
+import com.es.proyectoformulario.utils.UserValidator;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,6 +15,20 @@ public class ServiceUser {
 
     private String ruta = "src/main/resources/users/users.txt";
 
+    public void anadirUsuarioPremium(User usuario){
+        boolean terrible=false;
+        if (!this.userExists(usuario.getId())) {
+            if (!UserValidator.checkCont2(usuario.getId()) && !UserValidator.checkCont2(usuario.getPass()) && !UserValidator.checkCont2(usuario.getName())) {
+                if (usuario.getId().length() <= 20 && usuario.getName().length() <= 20 && usuario.getPass().length() <= 20) {
+                    terrible = true;
+                }
+            }
+        }
+        if (terrible) {
+            users.add(usuario);
+            anadirFicheroUsers(usuario);
+        }
+    }
     public ServiceUser() {
         this.users = new ArrayList<>();
         this.gestionUser = new GestionFicheroUser();
